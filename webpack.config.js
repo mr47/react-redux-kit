@@ -75,6 +75,10 @@ module.exports = {
     postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
     plugins: [
         //new webpack.HotModuleReplacementPlugin(), see https://github.com/webpack/webpack-dev-server/issues/87
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development'),
+            'NODE_ENV': JSON.stringify('development')
+        }),
         new webpack.ProvidePlugin({
             "_": "lodash",
             Promise: "bluebird"

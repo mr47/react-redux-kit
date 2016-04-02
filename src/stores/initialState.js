@@ -1,8 +1,21 @@
 "use strict";
 import dev from './../decorators/dev'
 
-const initialState = {  };
+import { menuItems } from '../data/'
 
-const initialStateManage = ()=> (dev ? window.__initialState__: initialState);
+const initialState = { };
 
-export default initialStateManage();
+// Initial state manager
+const initialStateManager = ()=> {
+    if (dev){
+        return {
+            ...initialState,
+            ...window.__initialState__
+        }
+    } else {
+        return initialState;
+    }
+
+};
+
+export default initialStateManager();

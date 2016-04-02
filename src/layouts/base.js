@@ -2,12 +2,15 @@
 
 import React from 'react';
 
-const Layout = ({ children })=>{
+const BaseLayout = ({ children })=>{
     return (
-        <div>
-            {children}
+        <div className="container">
+            <h1>React + Redux Demo</h1>
+           {children}
         </div>
     )
 };
 
-export default Layout;
+export {
+    BaseLayout
+};
