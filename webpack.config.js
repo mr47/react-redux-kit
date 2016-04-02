@@ -5,13 +5,28 @@ var path = require('path');
 var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+var historyApiFallback = require('connect-history-api-fallback')
+var sassLoaders = [
+    "style",
+    "css?sourceMap",
+    "postcss",
+    "sass?sourceMap"
+];
 
-var cssLoaders = [
+var sassLoadersWithModules = [
     "style",
     "css?sourceMap&modules&localIdentName=[name]---[local]---[hash:base64:5]",
     "postcss",
     "sass?sourceMap"
 ];
+
+var cssLoaders = [
+    "style",
+    "css?sourceMap",
+    "postcss"
+];
+
+var appStylesRegExp = /styles\.scss/;
 
 module.exports = {
 
@@ -20,22 +35,14 @@ module.exports = {
         filename: 'index.js',
         publicPath: '/'
     },
-
-    cache: true,
-    debug: false,
-    devtool: false,
+    devtool: 'source-map',
     entry: [
         './demo/app.js'
     ],
 
-    stats: {
-        colors: true,
-        reasons: true
-    },
-
     resolve: {
-        extensions: ['', '.js', '.scss'],
-        modulesDirectories: ["node_modules", "../src"]
+        extensions: ['', '.js', '.scss', '.css'],
+        modulesDirectories: ["node_modules", "./src"]
     },
     module: {
         loaders: [
@@ -44,8 +51,19 @@ module.exports = {
                 exclude: [/node_modules/],
                 loader: 'babel-loader'
             },
+            // allow modules and css to be loaded
             {
                 test: /\.scss/,
+                include: [appStylesRegExp],
+                loader: sassLoaders.join("!")
+            },
+            {
+                test: /\.scss/,
+                exclude: [appStylesRegExp],
+                loader: sassLoadersWithModules.join("!")
+            },
+            {
+                test: /\.css/,
                 loader: cssLoaders.join("!")
             },
             {
@@ -56,10 +74,8 @@ module.exports = {
     },
     postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
+        //new webpack.HotModuleReplacementPlugin(), see https://github.com/webpack/webpack-dev-server/issues/87
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery",
             "_": "lodash",
             Promise: "bluebird"
         }),
@@ -75,7 +91,8 @@ module.exports = {
             // proxy the Webpack Dev Server endpoint
             // (which should be serving on http://localhost:3100/)
             // through BrowserSync
-            proxy: 'http://localhost:8080/'
+            proxy: 'http://localhost:8080/',
+            middleware: [ historyApiFallback() ]
         },
         // plugin options
         {
