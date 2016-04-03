@@ -5,6 +5,7 @@
 const menuItems = [
     {
         mid: 1,
+        default: true,
         name: "Menu 1"
     },
     {
@@ -13,6 +14,13 @@ const menuItems = [
     }
 ];
 
+const defaultMenuId = ()=>{
+    const defaultMenuItem = _.find(menuItems, {
+        default: true
+    });
+    return defaultMenuItem.id || 0;
+};
+
 export {
-    menuItems
+    menuItems, defaultMenuId
 }

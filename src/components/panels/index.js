@@ -4,19 +4,20 @@
 
 "use strict";
 
-import React from 'react';
-import Menu from '../menu/';
+import React, { Component } from 'react';
 
-class LeftPanel extends React.Component{
+
+class LeftPanel extends Component{
     render() {
+        const { children } = this.props;
         return (
             <div className="column column-25">
-                <Menu {...this.props}/>
+                {children}
             </div>
         );
     }
 }
-class RightPanel extends React.Component{
+class RightPanel extends Component{
     render() {
         const { children } = this.props;
         return (

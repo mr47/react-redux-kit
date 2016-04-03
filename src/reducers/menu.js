@@ -1,6 +1,6 @@
 "use strict";
 
-import { menuItems } from '../data/';
+import { menuItems } from '../data';
 
 const menu = (state = menuItems, action)=>{
      switch (action.type){

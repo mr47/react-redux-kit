@@ -1,0 +1,46 @@
+.item{
+  background: #ccc;
+}
+.itemCollapsed{
+    @extend .item;
+    .body{
+        height: 0px!important;
+        overflow: hidden;
+    }
+    .header{
+        &:after{
+            border-width: 20px 10px 0 10px;
+            border-color: #000000 transparent transparent transparent;
+            content: "";
+        }
+    }
+}
+
+.header{
+    background: #727273;
+    position: relative;
+    padding: 10px;
+    a, a:hover{
+        width: 100%;
+        display: block;
+        height: 100%;
+        color: white;
+    }
+    &:after{
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 20px 10px;
+        border-color: transparent transparent #000000 transparent;
+    }
+}
+
+.body{
+    height: auto;
+    padding: 5px;
+    border: 3px solid #ccc;
+}

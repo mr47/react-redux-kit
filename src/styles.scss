@@ -1,2 +1,7 @@
 @import "~normalize.css/normalize.css";
 @import "~milligram/dist/milligram.css";
+
+.ReactTabs__Tab{
+    margin-bottom: 0!important;
+    border-radius: 0!important;
+}
