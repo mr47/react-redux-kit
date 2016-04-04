@@ -10,7 +10,6 @@ export const SETUP_TABS = "SETUP_TABS";
 export const SETUP_TAB_BY_ID = "SETUP_TAB_BY_ID";
 
 const tabs = (state = [], action)=>{
-    console.log('tabs, reducer', action);
     switch (action.type){
         case SETUP_TABS: {
             return _.filter(tabItems, (tab)=> tab.mid === +action.payload)

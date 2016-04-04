@@ -9,13 +9,12 @@ import styles from './collapse.scss';
 class Collapse extends Component{
     static PropTypes = {
         items: PropTypes.array.isRequired,
-        toggleCollapse: PropTypes.func.isRequired,
         collapseItemClick: PropTypes.func.isRequired
     };
     render(){
         const { items, toggleCollapse, collapseItemClick } = this.props;
         const menuItems = items.map( (item) =>{
-            return <CollapseItem {...item} collapseItemClick={this.collapseItemClick} toggleCollapse={toggleCollapse} key={item.cid}/>;
+            return <CollapseItem {...item} collapseItemClick={collapseItemClick} key={item.cid}/>;
         });
         return (
             <div className={styles.base}>

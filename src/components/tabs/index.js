@@ -20,18 +20,27 @@ class BaseTabsWrapper extends Component{
     static contextTypes = {
         router: PropTypes.any.isRequired
     };
+    static PropTypes = {
+        setActiveTab: PropTypes.func.isRequired
+    };
     tabItemClick(index, last){
-        const { params, tabs, actions } = this.props;
-        actions.setupCollapse(tabs[index].id);
+        const { params, tabs, actions, setActiveTab } = this.props;
+        setActiveTab(params.menuId, index);
         this.context.router.push({ pathname: `/${params.menuId}/${index}` });
     }
     collapseItemClick(cid){
-        const {toggleCollapse} = this.props;
-        toggleCollapse(cid);
+        //const { toggleCollapse } = this.props.actions;
+        //toggleCollapse(cid);
+        //this.context.router.push({
+        //    query: {
+        //        collapse:
+        //    }
+        //})
     }
     componentWillMount(){
-        const { actions } = this.props;
-        //actions.setupTab()
+        //const { actions, params } = this.props;
+        //actions.setupTabs(params.menuId);
+        //actions.setupCollapse(params.tabIndex);
     }
     render(){
         const { params, tabs, collapse, actions } = this.props;
@@ -50,13 +59,13 @@ class BaseTabsWrapper extends Component{
         });
         return (
             <div>
-                <Tabs onSelect={this.tabItemClick.bind(this)} selectedIndex={+params.tabIndex}>
+                <Tabs onSelect={this.tabItemClick.bind(this)} selectedIndex={+params.tabIndex || 0}>
                     <TabList>
                         {TabsHeaders}
                     </TabList>
                     {TabsContent}
                 </Tabs>
-                <Collapse items={collapse} collapseItemClick={this.collapseItemClick.bind(this)} toggleCollapse={actions.toggleCollapse}/>
+                <Collapse items={collapse} collapseItemClick={this.collapseItemClick.bind(this)}/>
             </div>
         );
     }

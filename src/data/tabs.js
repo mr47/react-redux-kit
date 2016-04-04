@@ -33,14 +33,6 @@ const tabItems = [
     }
 ];
 
-const defaultTabId = (menuId)=>{
-    const defaultTabItem = _.find(tabItems, {
-        default: true,
-        mid: menuId
-    });
-    return defaultTabItem.id || 0;
-};
-
 export {
-    tabItems, defaultTabId
+    tabItems
 }

@@ -31,7 +31,7 @@ const collapsedItems = (state = [], action)=>{
 const collapse = (state = [], action)=>{
     switch (action.type){
         case SETUP_COLLAPSE: {
-            return _.filter(collapseItems, (item)=>( item.tid === +action.payload ));
+            return _.filter(collapseItems, (item)=>( item.tid === +action.payload.tid && item.mid === +action.payload.mid ));
         } break;
         default:
             return state;
