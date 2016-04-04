@@ -13,45 +13,81 @@ import Menu from '../menu';
 import * as actionCreators from '../../actions';
 
 class BaseApp extends Component{
-    setupMenuComponent(mid){
-        const { actions } = this.props;
-        actions.setupTabs(mid);
-        actions.setupCollapse({
-            tid: 0,
-            mid: mid
+    static contextTypes = {
+        router: PropTypes.any.isRequired
+    };
+    handleSetActiveMenu(mid){
+        const { setActiveMenu, setupTabs, setActiveTabByIndex, setupCollapseByTabIndex } = this.props.actions;
+        setActiveMenu(mid);
+        setupTabs(mid);
+        setActiveTabByIndex({
+            index: 0,
+            mid
         });
-        //actions.setupCollapsed(query.collapse);
+        setupCollapseByTabIndex({
+            tabIndex: 0,
+            mid: mid
+        })
     }
-    setupTabComponent(mid, tid){
-        const { actions } = this.props;
-        console.log("setupTabComponent",arguments);
-        actions.setupCollapse({
-            tid: tid,
-            mid: mid
+    handleSetActiveTab(index){
+        const { activeMenuItem } = this.props;
+        const { setActiveTabByIndex } = this.props.actions;
+        setActiveTabByIndex({
+            index,
+            mid: activeMenuItem.mid
         });
+    }
+    // sync state
+    componentWillReceiveProps(nextProps) {
+        if (!_.isEqual(nextProps.activeTabItem, this.props.activeTabItem) || !_.isEqual(nextProps.activeMenuItem, this.props.activeMenuItem)) {
+            this.context.router.push({
+                pathname: `/${nextProps.activeMenuItem.mid}/${nextProps.activeTabItem.id}`,
+                //query: {
+                //    collapse: nextProps.collapsedItems.join(",")
+                //}
+            })
+        }
     }
     componentWillMount(){
         const { params } = this.props;
-        this.setupMenuComponent(params.menuId);
-        this.setupTabComponent(params.menuId, params.tabIndex || 0);
+        const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex } = this.props.actions;
+        setActiveMenu(params.menuId);
+        setupTabs(params.menuId);
+        console.log('TAB_ID', params);
+        if (params.tabId){
+            setActiveTab({
+                tid: params.tabId,
+                mid: params.menuId
+            });
+        } else {
+            setActiveTabByIndex({
+                index: 0,
+                mid: params.menuId
+            });
+        }
+
     }
     render(){
-        const { menu, actions, params, collapsedItems } = this.props;
+        const { menuItems, tabItems, activeTabItem } = this.props;
         return (
             <div className="row">
                 <LeftPanel>
-                    <Menu items={menu} setActiveMenu={this.setupMenuComponent.bind(this)}/>
+                    <Menu items={menuItems} setActiveMenu={this.handleSetActiveMenu.bind(this)}/>
                 </LeftPanel>
                 <RightPanel>
-                    <TabsWrapper params={params} setActiveTab={this.setupTabComponent.bind(this)} collapsedItems={collapsedItems}/>
+                    <TabsWrapper items={tabItems} selectedIndex={+activeTabItem.internalIndex} setActiveTab={this.handleSetActiveTab.bind(this)} />
                 </RightPanel>
             </div>
         );
     }
+    // <TabsWrapper params={params} setActiveTab={this.setupTabComponent.bind(this)} collapsedItems={collapsedItems}/>
 }
 
 const mapStateToProps = (state)=>({
-    ...state
+    menuItems: state.menuItems,
+    tabItems: state.tabItems,
+    activeTabItem: state.activeTabItem,
+    activeMenuItem: state.activeMenuItem
 });
 const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(actionCreators, dispatch) });
 

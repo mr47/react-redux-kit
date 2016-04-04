@@ -3,13 +3,14 @@
  */
 "use strict";
 
-import { collapseItems } from '../data/';
+import { dataCollapseItems, dataTabItems } from '../data';
 
 export const TOGGLE_COLLAPSE = 'TOGGLE_COLLAPSE';
-export const SETUP_COLLAPSE = 'SETUP_COLLAPSE';
+export const SETUP_COLLAPSE_BY_TAB_INDEX = 'SETUP_COLLAPSE_BY_TAB_INDEX';
+export const SETUP_COLLAPSE = "SETUP_COLLAPSE";
 export const SETUP_COLLAPSED = 'SETUP_COLLAPSED';
 
-const collapsedItems = (state = [], action)=>{
+const activeCollapsedItems = (state = [], action)=>{
     switch (action.type){
         case TOGGLE_COLLAPSE: {
             let index = _.indexOf(state, +action.payload);
@@ -28,10 +29,15 @@ const collapsedItems = (state = [], action)=>{
     }
 };
 
-const collapse = (state = [], action)=>{
+const collapseItems = (state = [], action)=>{
     switch (action.type){
         case SETUP_COLLAPSE: {
-            return _.filter(collapseItems, (item)=>( item.tid === +action.payload.tid && item.mid === +action.payload.mid ));
+            return _.filter(dataCollapseItems, (item)=>( item.tid === +action.payload.tid && item.mid === +action.payload.mid ));
+        } break;
+        case SETUP_COLLAPSE_BY_TAB_INDEX:{
+            let filteredTabs = _.filter(dataTabItems, ["mid", +action.payload.mid]);
+            let tab = filteredTabs[action.payload.tabIndex];
+            return _.filter(dataCollapseItems, (item)=>( item.tid === tab.id && item.mid === +action.payload.mid ));
         } break;
         default:
             return state;
@@ -39,7 +45,7 @@ const collapse = (state = [], action)=>{
 };
 
 export {
-    collapse, collapsedItems
+    collapseItems, activeCollapsedItems
 }
 
-export default collapse;
+export default collapseItems;

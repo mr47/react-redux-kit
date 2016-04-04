@@ -5,3 +5,4 @@
 export * from './tabs';
 export * from './counter';
 export * from './collapse';
+export * from './menu';

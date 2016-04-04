@@ -18,7 +18,7 @@ const AppRoutes = (
             <Route path="/" component={BaseLayout}>
                 <IndexRoute component={App} />
                 <Route path="/:menuId" component={App}>
-                    <Route path=":tabIndex" component={App}/>
+                    <Route path=":tabId" component={App}/>
                 </Route>
                 <Route path="*" component={NoMatch}/>
             </Route>

@@ -3,11 +3,10 @@
  */
 "use strict";
 
-const tabItems = [
+const dataTabItems = [
     {
         id: 0,
         mid: 1,
-        default: true,
         name: "Tab 1 > Menu 1"
     },
     {
@@ -18,7 +17,6 @@ const tabItems = [
     {
         id: 2,
         mid: 2,
-        default: true,
         name: "Tab 1 > Menu 2"
     },
     {
@@ -34,5 +32,5 @@ const tabItems = [
 ];
 
 export {
-    tabItems
+    dataTabItems
 }

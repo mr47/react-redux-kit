@@ -2,7 +2,7 @@
  * Created by mr470 on 02.04.2016.
  */
 
-const menuItems = [
+const dataMenuItems = [
     {
         mid: 1,
         name: "Menu 1"
@@ -14,5 +14,5 @@ const menuItems = [
 ];
 
 export {
-    menuItems
+    dataMenuItems
 }

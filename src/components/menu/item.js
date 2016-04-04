@@ -19,6 +19,9 @@ class MenuItem extends Component{
     render(){
         const { mid, name } = this.props;
         return (
+            // Left it as is, it's have place in redux work but better to sync state with url at high level
+            // and if someone reading this its HAVE PLACE IN REDUX
+            // see https://github.com/reactjs/redux/tree/master/examples/real-world
             <Link className={`${styles.item}`} to={`/${mid}/`} onClick={this.onItemClick.bind(this)} activeClassName={styles.itemActive}>{name}</Link>
         );
     }

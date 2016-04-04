@@ -4,33 +4,48 @@
 
 "use strict";
 
-import { tabItems } from '../data/';
+import { dataTabItems } from '../data';
 
 export const SETUP_TABS = "SETUP_TABS";
-export const SETUP_TAB_BY_ID = "SETUP_TAB_BY_ID";
+export const SET_ACTIVE_TAB = "SET_ACTIVE_TAB_BY_ID";
+export const SET_ACTIVE_TAB_BY_INDEX = "SET_ACTIVE_TAB_BY_INDEX";
 
-const tabs = (state = [], action)=>{
+const tabItems = (state = [], action)=>{
     switch (action.type){
         case SETUP_TABS: {
-            return _.filter(tabItems, (tab)=> tab.mid === +action.payload)
+            return _.filter(dataTabItems, ["mid", +action.payload])
         } break;
         default:
             return state;
     }
 };
 
-const tab = (state = [], action) =>{
+const activeTabItem = (state = false, action) =>{
     switch (action.type){
-        case SETUP_TAB_BY_ID: {
-            return _.filter(tabItems, (tab)=> tab.id === +action.payload)
+        case SET_ACTIVE_TAB: {
+            let filtered = _.filter(dataTabItems, ["mid", +action.payload.mid]);
+            let index = _.findIndex(filtered, ["id", +action.payload.tid]);
+            return {
+                ...filtered[index],
+                internalIndex: index
+            }
         } break;
+        case SET_ACTIVE_TAB_BY_INDEX: {
+            let filtered = _.filter(dataTabItems, (item)=> item.mid === +action.payload.mid);
+            if (action.payload.index >= 0 && action.payload.index < filtered.length) {
+                return {
+                    ...filtered[action.payload.index],
+                    internalIndex: action.payload.index
+                }
+            } else return false;
+        }break;
         default:
-            return _.filter(tabItems, (tab)=> tab.id === +action.payload);
+            return state;
     }
 };
 
 export {
-    tabs
+    tabItems, activeTabItem
 }
 
-export default tabs;
+export default tabItems;

@@ -16,35 +16,15 @@ import * as actionCreators from '../../actions';
 
 import Collapse from '../collapse';
 
-class BaseTabsWrapper extends Component{
-    static contextTypes = {
-        router: PropTypes.any.isRequired
-    };
+class TabsWrapper extends Component{
     static PropTypes = {
+        items: PropTypes.array.isRequired,
+        selectedIndex: PropTypes.number.isRequired,
         setActiveTab: PropTypes.func.isRequired
     };
-    tabItemClick(index, last){
-        const { params, tabs, actions, setActiveTab } = this.props;
-        setActiveTab(params.menuId, index);
-        this.context.router.push({ pathname: `/${params.menuId}/${index}` });
-    }
-    collapseItemClick(cid){
-        //const { toggleCollapse } = this.props.actions;
-        //toggleCollapse(cid);
-        //this.context.router.push({
-        //    query: {
-        //        collapse:
-        //    }
-        //})
-    }
-    componentWillMount(){
-        //const { actions, params } = this.props;
-        //actions.setupTabs(params.menuId);
-        //actions.setupCollapse(params.tabIndex);
-    }
     render(){
-        const { params, tabs, collapse, actions } = this.props;
-        const TabsHeaders = tabs.map((item)=>{
+        const { items, selectedIndex, setActiveTab } = this.props;
+        const TabsHeaders = items.map((item)=>{
             return (
                 <Tab key={_.uniqueId("tab",item.id)}>
                     {item.name}
@@ -52,32 +32,25 @@ class BaseTabsWrapper extends Component{
             );
         });
 
-        const TabsContent = tabs.map((item)=>{
+        const TabsContent = items.map((item)=>{
             return (
                 <TabPanel key={_.uniqueId("panel",item.id)} />
             );
         });
+        //selectedIndex={selectedIndex || 0}
         return (
             <div>
-                <Tabs onSelect={this.tabItemClick.bind(this)} selectedIndex={+params.tabIndex || 0}>
+                <Tabs onSelect={setActiveTab} selectedIndex={selectedIndex || 0}>
                     <TabList>
                         {TabsHeaders}
                     </TabList>
                     {TabsContent}
                 </Tabs>
-                <Collapse items={collapse} collapseItemClick={this.collapseItemClick.bind(this)}/>
             </div>
         );
+        // <Collapse items={collapse} collapseItemClick={this.collapseItemClick.bind(this)}/>
     }
 }
-
-const mapStateToProps = (state)=>({
-    ...state
-});
-
-const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(actionCreators, dispatch) });
-
-const TabsWrapper = connect(mapStateToProps, mapDispatchToProps)(BaseTabsWrapper);
 
 export {
     TabsWrapper
