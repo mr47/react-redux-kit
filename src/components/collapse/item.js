@@ -8,7 +8,7 @@ import styles from './collapse.scss';
 class CollapseItem extends Component{
     static PropTypes = {
         name: PropTypes.string.isRequired,
-        cid: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired,
         text: PropTypes.string.isRequired,
         collapsed: PropTypes.bool,
         collapseItemClick: PropTypes.func.isRequired
@@ -24,7 +24,7 @@ class CollapseItem extends Component{
         this.props.collapseItemClick(this.props.cid);
     }
     render(){
-        const { cid, name, text } = this.props;
+        const { id, name, text } = this.props;
         const { isCollapsed } = this.state;
         return (
             <div className={isCollapsed?styles.itemCollapsed:styles.item}>

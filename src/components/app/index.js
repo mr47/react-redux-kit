@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 import { LeftPanel, RightPanel } from '../panels/';
 
+import Collapse from '../collapse';
 import TabsWrapper from '../tabs';
 import Menu from '../menu';
 
@@ -40,6 +41,9 @@ class BaseApp extends Component{
             index,
             mid: activeMenuItem.id
         })
+    }
+    handleToggleCollapse(cid){
+
     }
     // "one state sync to rule them all."
     // sync state
@@ -77,7 +81,7 @@ class BaseApp extends Component{
         }
     }
     render(){
-        const { menuItems, tabItems, activeTabItem } = this.props;
+        const { menuItems, tabItems, collapseItems, activeTabItem } = this.props;
         return (
             <div className="row">
                 <LeftPanel>
@@ -85,6 +89,7 @@ class BaseApp extends Component{
                 </LeftPanel>
                 <RightPanel>
                     <TabsWrapper items={tabItems} selectedIndex={+activeTabItem.internalIndex} setActiveTab={this.handleSetActiveTab.bind(this)} />
+                    <Collapse items={collapseItems} collapseItemClick={this.handleToggleCollapse.bind(this)}/>
                 </RightPanel>
             </div>
         );
@@ -95,7 +100,8 @@ const mapStateToProps = (state)=>({
     menuItems: state.menuItems,
     tabItems: state.tabItems,
     activeTabItem: state.activeTabItem,
-    activeMenuItem: state.activeMenuItem
+    activeMenuItem: state.activeMenuItem,
+    collapseItems: state.collapseItems
 });
 const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(actionCreators, dispatch) });
 

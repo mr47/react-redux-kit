@@ -13,12 +13,12 @@ class Collapse extends Component{
     };
     render(){
         const { items, toggleCollapse, collapseItemClick } = this.props;
-        const menuItems = items.map( (item) =>{
-            return <CollapseItem {...item} collapseItemClick={collapseItemClick} key={item.cid}/>;
+        const collapseItems = items.map( (item) =>{
+            return <CollapseItem {...item} collapseItemClick={collapseItemClick} key={item.id}/>;
         });
         return (
             <div className={styles.base}>
-                {menuItems}
+                {collapseItems}
             </div>
         );
     }
