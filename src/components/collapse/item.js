@@ -21,7 +21,7 @@ class CollapseItem extends Component{
         this.setState({
             isCollapsed: !this.state.isCollapsed
         });
-        this.props.collapseItemClick(this.props.cid);
+        this.props.collapseItemClick(this.props.id);
     }
     render(){
         const { id, name, text } = this.props;

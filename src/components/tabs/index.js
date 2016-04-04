@@ -34,7 +34,9 @@ class TabsWrapper extends Component{
 
         const TabsContent = items.map((item)=>{
             return (
-                <TabPanel key={`panel-${item.id}`} />
+                <TabPanel key={`panel-${item.id}`}>
+                    {item.text}
+                </TabPanel>
             );
         });
         //selectedIndex={selectedIndex || 0}

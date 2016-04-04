@@ -43,24 +43,31 @@ class BaseApp extends Component{
         })
     }
     handleToggleCollapse(cid){
-
+        const { toggleCollapse } = this.props.actions;
+        toggleCollapse(cid);
     }
     // "one state sync to rule them all."
     // sync state
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(nextProps.activeTabItem, this.props.activeTabItem) || !_.isEqual(nextProps.activeMenuItem, this.props.activeMenuItem)) {
+        if (!_.isEqual(nextProps.activeTabItem, this.props.activeTabItem)
+            || !_.isEqual(nextProps.activeMenuItem, this.props.activeMenuItem)
+            || !_.isEqual(nextProps.activeCollapsedItems, this.props.activeCollapsedItems)
+        ) {
             this.context.router.push({
                 pathname: `/${nextProps.activeMenuItem.id}/${nextProps.activeTabItem.id}`,
-                //query: {
-                //    collapse: nextProps.collapsedItems.join(",")
-                //}
+                query: {
+                    collapse: nextProps.activeCollapsedItems? nextProps.activeCollapsedItems.join("-"): null
+                }
             })
         }
     }
     componentWillMount(){
         const { params, query } = this.props;
-        const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse } = this.props.actions;
+        const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse, setupCollapsed } = this.props.actions;
         if (params.menuId){
+            if (query){
+                setupCollapsed(query.collapse.split("-"));
+            }
             setActiveMenu(params.menuId);
             setupTabs(params.menuId);
             setupCollapse({
@@ -78,7 +85,7 @@ class BaseApp extends Component{
                     mid: params.menuId
                 });
             }
-        }
+}
     }
     render(){
         const { menuItems, tabItems, collapseItems, activeTabItem } = this.props;
@@ -101,7 +108,8 @@ const mapStateToProps = (state)=>({
     tabItems: state.tabItems,
     activeTabItem: state.activeTabItem,
     activeMenuItem: state.activeMenuItem,
-    collapseItems: state.collapseItems
+    collapseItems: state.collapseItems,
+    activeCollapsedItems: state.activeCollapsedItems
 });
 const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(actionCreators, dispatch) });
 
