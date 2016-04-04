@@ -9,9 +9,6 @@ import { history, store } from './stores/store'
 import { App, NoMatch } from './components/app'
 import { BaseLayout } from './layouts/';
 
-import { defaultTabId } from './data';
-//
-
 const AppRoutes = (
     <Provider store={store}>
         <Router history={history}>

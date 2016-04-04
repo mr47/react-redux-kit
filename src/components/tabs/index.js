@@ -26,7 +26,7 @@ class TabsWrapper extends Component{
         const { items, selectedIndex, setActiveTab } = this.props;
         const TabsHeaders = items.map((item)=>{
             return (
-                <Tab key={_.uniqueId("tab",item.id)}>
+                <Tab key={`tab-${item.id}`}>
                     {item.name}
                 </Tab>
             );
@@ -34,7 +34,7 @@ class TabsWrapper extends Component{
 
         const TabsContent = items.map((item)=>{
             return (
-                <TabPanel key={_.uniqueId("panel",item.id)} />
+                <TabPanel key={`panel-${item.id}`} />
             );
         });
         //selectedIndex={selectedIndex || 0}

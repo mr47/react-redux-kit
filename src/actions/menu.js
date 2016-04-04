@@ -3,6 +3,7 @@
  */
 
 import { createAction, handleActions, handleAction } from 'redux-actions';
-import { SET_ACTIVE_MENU } from '../reducers';
+import { SET_ACTIVE_MENU, SET_ACTIVE_MENU_BY_INDEX } from '../reducers';
 
 export const setActiveMenu = createAction(SET_ACTIVE_MENU);
+export const setActiveMenuByIndex = createAction(SET_ACTIVE_MENU_BY_INDEX);

@@ -36,7 +36,7 @@ const collapseItems = (state = [], action)=>{
         } break;
         case SETUP_COLLAPSE_BY_TAB_INDEX:{
             let filteredTabs = _.filter(dataTabItems, ["mid", +action.payload.mid]);
-            let tab = filteredTabs[action.payload.tabIndex];
+            let tab = filteredTabs[action.payload.index];
             return _.filter(dataCollapseItems, (item)=>( item.tid === tab.id && item.mid === +action.payload.mid ));
         } break;
         default:

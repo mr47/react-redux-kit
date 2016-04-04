@@ -4,9 +4,11 @@
 
 "use strict";
 
-import { dataTabItems } from '../data';
+import { dataTabItems, dataMenuItems } from '../data';
+
 
 export const SETUP_TABS = "SETUP_TABS";
+export const SETUP_TABS_BY_MENU_INDEX = "SETUP_TABS_BY_MENU_INDEX";
 export const SET_ACTIVE_TAB = "SET_ACTIVE_TAB_BY_ID";
 export const SET_ACTIVE_TAB_BY_INDEX = "SET_ACTIVE_TAB_BY_INDEX";
 
@@ -14,6 +16,12 @@ const tabItems = (state = [], action)=>{
     switch (action.type){
         case SETUP_TABS: {
             return _.filter(dataTabItems, ["mid", +action.payload])
+        } break;
+        case SETUP_TABS_BY_MENU_INDEX:{
+            const menuIndex = +action.payload;
+            if (dataMenuItems[menuIndex] && menuIndex < dataMenuItems.length ){
+                return _.filter(dataMenuItems, ["mid", dataMenuItems[menuIndex].id]);
+            } else return [];
         } break;
         default:
             return state;

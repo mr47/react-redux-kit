@@ -25,23 +25,28 @@ class BaseApp extends Component{
             mid
         });
         setupCollapseByTabIndex({
-            tabIndex: 0,
+            index: 0,
             mid: mid
         })
     }
     handleSetActiveTab(index){
         const { activeMenuItem } = this.props;
-        const { setActiveTabByIndex } = this.props.actions;
+        const { setActiveTabByIndex, setupCollapseByTabIndex } = this.props.actions;
         setActiveTabByIndex({
             index,
-            mid: activeMenuItem.mid
+            mid: activeMenuItem.id
         });
+        setupCollapseByTabIndex({
+            index,
+            mid: activeMenuItem.id
+        })
     }
+    // "one state sync to rule them all."
     // sync state
     componentWillReceiveProps(nextProps) {
         if (!_.isEqual(nextProps.activeTabItem, this.props.activeTabItem) || !_.isEqual(nextProps.activeMenuItem, this.props.activeMenuItem)) {
             this.context.router.push({
-                pathname: `/${nextProps.activeMenuItem.mid}/${nextProps.activeTabItem.id}`,
+                pathname: `/${nextProps.activeMenuItem.id}/${nextProps.activeTabItem.id}`,
                 //query: {
                 //    collapse: nextProps.collapsedItems.join(",")
                 //}
@@ -49,23 +54,27 @@ class BaseApp extends Component{
         }
     }
     componentWillMount(){
-        const { params } = this.props;
-        const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex } = this.props.actions;
-        setActiveMenu(params.menuId);
-        setupTabs(params.menuId);
-        console.log('TAB_ID', params);
-        if (params.tabId){
-            setActiveTab({
+        const { params, query } = this.props;
+        const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse } = this.props.actions;
+        if (params.menuId){
+            setActiveMenu(params.menuId);
+            setupTabs(params.menuId);
+            setupCollapse({
                 tid: params.tabId,
                 mid: params.menuId
             });
-        } else {
-            setActiveTabByIndex({
-                index: 0,
-                mid: params.menuId
-            });
+            if (params.tabId){
+                setActiveTab({
+                    tid: params.tabId,
+                    mid: params.menuId
+                });
+            } else {
+                setActiveTabByIndex({
+                    index: 0,
+                    mid: params.menuId
+                });
+            }
         }
-
     }
     render(){
         const { menuItems, tabItems, activeTabItem } = this.props;
@@ -80,7 +89,6 @@ class BaseApp extends Component{
             </div>
         );
     }
-    // <TabsWrapper params={params} setActiveTab={this.setupTabComponent.bind(this)} collapsedItems={collapsedItems}/>
 }
 
 const mapStateToProps = (state)=>({

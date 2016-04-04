@@ -4,11 +4,11 @@
 
 const dataMenuItems = [
     {
-        mid: 1,
+        id: 1,
         name: "Menu 1"
     },
     {
-        mid: 2,
+        id: 2,
         name: "Menu 2"
     }
 ];

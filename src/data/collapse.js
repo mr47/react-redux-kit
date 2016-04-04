@@ -26,14 +26,14 @@ const dataCollapseItems = [
     },
     {
         id: 3,
-        tid: 0,
+        tid: 2,
         mid: 2,
         name: "collapse 4",
         text: "Hello from collapse #4"
     },
     {
         id: 4,
-        tid: 0,
+        tid: 2,
         mid: 2,
         name: "collapse 5",
         text: "Hello from collapse #5"

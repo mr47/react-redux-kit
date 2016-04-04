@@ -16,7 +16,7 @@ class Menu extends Component{
     render(){
         const { items, setActiveMenu } = this.props;
         const menuItems = items.map( (item) =>{
-            return <MenuItem {...item} setActiveMenu={setActiveMenu} key={item.mid}/>;
+            return <MenuItem {...item} setActiveMenu={setActiveMenu} key={item.id}/>;
         });
         return (
             <div className={styles.base}>

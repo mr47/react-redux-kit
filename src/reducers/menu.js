@@ -3,6 +3,7 @@
 import { dataMenuItems } from '../data';
 
 export const SET_ACTIVE_MENU = "SET_ACTIVE_MENU";
+export const SET_ACTIVE_MENU_BY_INDEX = "SET_ACTIVE_MENU_BY_INDEX";
 
 const menuItems = (state = dataMenuItems, action)=>{
      switch (action.type){
@@ -12,10 +13,17 @@ const menuItems = (state = dataMenuItems, action)=>{
      }
 };
 
-const activeMenuItem = (state = dataMenuItems[0], action)=>{
+const activeMenuItem = (state = false, action)=>{
     switch (action.type){
         case SET_ACTIVE_MENU: {
-            return _.find(dataMenuItems, ["mid", +action.payload])
+            return {
+                ..._.find(dataMenuItems, ["id", +action.payload])
+            }
+        } break;
+        case SET_ACTIVE_MENU_BY_INDEX: {
+            return {
+                ...dataMenuItems[action.payload]
+            }
         } break;
         default:
             return state;
