@@ -14,6 +14,7 @@ const AppRoutes = (
         <Router history={history}>
             <Route path="/" component={BaseLayout}>
                 <IndexRoute component={App} />
+                <IndexRedirect to="/1" />
                 <Route path="/:menuId" component={App}>
                     <Route path=":tabId" component={App}/>
                 </Route>

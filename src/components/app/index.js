@@ -48,32 +48,38 @@ class BaseApp extends Component{
         const { toggleCollapse } = this.props.actions;
         toggleCollapse(cid);
     }
-    // "one state sync to rule them all."s
+    // "one state sync to rule them all."
     // sync state
     componentWillReceiveProps(nextProps) {
         if (nextProps.location !== this.props.location){
-            const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse, setupCollapsed } = this.props.actions;
-            console.log('change location!!!');
+            const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse, setupCollapsed, setupCollapseByTabIndex } = this.props.actions;
             if (nextProps.params.menuId){
                 setActiveMenu(nextProps.params.menuId);
                 setupTabs(nextProps.params.menuId);
-                setupCollapse({
-                    tid: nextProps.params.tabId,
-                    mid: nextProps.params.menuId
-                });
                 if (nextProps.params.tabId){
                     setActiveTab({
                         tid: nextProps.params.tabId,
                         mid: nextProps.params.menuId
                     });
+                    setupCollapse({
+                        tid: nextProps.params.tabId,
+                        mid: nextProps.params.menuId
+                    });
                 } else {
+                    setupCollapseByTabIndex({
+                        index: 0,
+                        mid: nextProps.params.menuId
+                    });
                     setActiveTabByIndex({
                         index: 0,
                         mid: nextProps.params.menuId
                     });
+                    setupCollapsed([]);
                 }
-                if (nextProps.location.query.collapse.length > 0){
-                    setupCollapsed(nextProps.location.query.collapse.split("-"));
+                if ( !_.isEqual(nextProps.activeCollapsedItems, this.props.activeCollapsedItems)){
+                    if (nextProps.location.query.collapse.length > 0){
+                        setupCollapsed(nextProps.location.query.collapse.split("-"));
+                    }
                 }
             }
         }
@@ -81,37 +87,43 @@ class BaseApp extends Component{
             || !_.isEqual(nextProps.activeMenuItem, this.props.activeMenuItem)
             || !_.isEqual(nextProps.activeCollapsedItems, this.props.activeCollapsedItems)
         ) {
-            console.log(nextProps.activeCollapsedItems);
-            this.context.router.push({
-                pathname: `/${nextProps.activeMenuItem.id}/${nextProps.activeTabItem.id}`,
-                query: {
-                    collapse: nextProps.activeCollapsedItems? nextProps.activeCollapsedItems.join("-"): null
+            let route = {
+                pathname: `/${nextProps.activeMenuItem.id}/${nextProps.activeTabItem.id}`
+            };
+            if (nextProps.activeCollapsedItems && nextProps.activeCollapsedItems.length > 0){
+                route.query = {
+                    collapse: nextProps.activeCollapsedItems.join("-")
                 }
-            })
+            }
+            this.context.router.push(route);
         }
     }
     componentWillMount(){
         const { params, location } = this.props;
-        const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse, setupCollapsed } = this.props.actions;
+        const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse, setupCollapsed, setupCollapseByTabIndex } = this.props.actions;
         if (params.menuId){
             setActiveMenu(params.menuId);
             setupTabs(params.menuId);
-            setupCollapse({
-                tid: params.tabId,
-                mid: params.menuId
-            });
             if (params.tabId){
+                setupCollapse({
+                    tid: params.tabId,
+                    mid: params.menuId
+                });
                 setActiveTab({
                     tid: params.tabId,
                     mid: params.menuId
                 });
             } else {
+                setupCollapseByTabIndex({
+                    index: 0,
+                    mid: params.menuId
+                });
                 setActiveTabByIndex({
                     index: 0,
                     mid: params.menuId
                 });
             }
-            if (location.query.collapse.length > 0){
+            if (location.query.collapse){
                 setupCollapsed(location.query.collapse.split("-"));
             }
         }
