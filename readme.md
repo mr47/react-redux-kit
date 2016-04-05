@@ -1,8 +1,8 @@
-[![David](https://img.shields.io/david/mr47/react-redux-demo.svg)]()
-[![David](https://img.shields.io/david/dev/mr47/react-redux-demo.svg)]()
-[![Travis](https://img.shields.io/travis/mr47/react-redux-demo.svg)]()
-[![Code Climate](https://codeclimate.com/github/mr47/react-redux-demo/badges/gpa.svg)](https://codeclimate.com/github/mr47/react-redux-demo)
-[![Test Coverage](https://codeclimate.com/github/mr47/react-redux-demo/badges/coverage.svg)](https://codeclimate.com/github/mr47/react-redux-demo/coverage)
+[![David](https://img.shields.io/david/mr47/react-redux-kit.svg)]()
+[![David](https://img.shields.io/david/dev/mr47/react-redux-kit.svg)]()
+[![Travis](https://img.shields.io/travis/mr47/react-redux-kit.svg)]()
+[![Code Climate](https://codeclimate.com/github/mr47/react-redux-kit/badges/gpa.svg)](https://codeclimate.com/github/mr47/react-redux-kit)
+[![Test Coverage](https://codeclimate.com/github/mr47/react-redux-kit/badges/coverage.svg)](https://codeclimate.com/github/mr47/react-redux-kit/coverage)
 [![Twitter Follow](https://img.shields.io/twitter/follow/seekmode.svg?style=social)](https://twitter.com/seekmode)
 
 > Based on [OSKit](https://github.com/mr47/opensource-kit)
@@ -16,7 +16,7 @@
 
 ##Installation
 ```sh
-git clone https://github.com/mr47/react-redux-demo.git
+git clone https://github.com/mr47/react-redux-kit.git
 npm install
 npm run start
 ```
