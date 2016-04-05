@@ -1,11 +1,11 @@
 {
-  "name": "opensource-kit",
+  "name": "react-redux-demo",
   "version": "1.1.0",
-  "description": "Open source kit for people who writes a good libs.",
+  "description": "React+redux demo for people who writes a nice code.",
   "main": "index.js",
   "scripts": {
     "test": "karma start --single-run --browsers PhantomJS",
-    "test:dev": "karma start --browsers PhantomJS",
+    "tests:dev": "karma start --browsers PhantomJS",
     "build:webpack": "webpack --config webpack.config.dist --colors -p",
     "build:babel": "babel ./src/ --out-dir=lib",
     "build": "npm run build:babel && npm run build:webpack",
@@ -19,8 +19,9 @@
   },
   "keywords": [
     "opensource",
-    "kit",
-    "lib"
+    "react",
+    "redux",
+    "kit"
   ],
   "engines": {
     "node": ">=5.0.0"
@@ -82,9 +83,9 @@
   "author": "mr47",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mr47/opensource-kit/issues"
+    "url": "https://github.com/mr47/react-redux-demo/issues"
   },
-  "homepage": "https://github.com/mr47/opensource-kit#readme",
+  "homepage": "https://github.com/mr47/react-redux-demo#readme",
   "dependencies": {
     "connect-history-api-fallback": "^1.2.0",
     "milligram": "^1.1.0",

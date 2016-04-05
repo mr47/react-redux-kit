@@ -12,6 +12,8 @@
 
 > React + redux demo for people who writes a nice code.
 
+>!Important. There is no actual server side, you can easy change this by implementing server-side by yourself.
+
 ##Installation
 ```sh
 git clone https://github.com/mr47/react-redux-demo.git
@@ -49,6 +51,10 @@ It will run karma with config `karma.conf.js`
 ```sh
 npm test
 ```
+To run tests in developer mode
+```sh
+npm run tests:dev
+```
 ##Run Demo
 ```sh
 npm run start
@@ -57,4 +63,7 @@ npm run start
 ##Node and npm version tested
 [![npm](https://img.shields.io/npm/v/npm.svg)]() 
 [![node](https://img.shields.io/badge/node-%3E%3D5.0.0-green.svg)]() 
+
+## License
+MIT
 
