@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-demo",
-  "version": "1.1.0",
-  "description": "React+redux demo for people who writes a nice code.",
+  "name": "react-redux-kit",
+  "version": "0.1.0",
+  "description": "React+redux kit for people who writes a nice code.",
   "main": "index.js",
   "scripts": {
     "test": "karma start --single-run --browsers PhantomJS",
@@ -15,12 +15,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mr47/opensource-kit.git"
+    "url": "git+https://github.com/mr47/react-redux-kit.git"
   },
   "keywords": [
     "opensource",
     "react",
     "redux",
+    "react-router",
     "kit"
   ],
   "engines": {
@@ -83,9 +84,9 @@
   "author": "mr47",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mr47/react-redux-demo/issues"
+    "url": "https://github.com/mr47/react-redux-kit/issues"
   },
-  "homepage": "https://github.com/mr47/react-redux-demo#readme",
+  "homepage": "https://github.com/mr47/react-redux-kit#readme",
   "dependencies": {
     "connect-history-api-fallback": "^1.2.0",
     "milligram": "^1.1.0",
