@@ -13,7 +13,7 @@
 
 > React + redux demo for people who writes a nice code.
 
->!Important. There is no actual server side, you can easy change this by implementing server-side by yourself.
+>**Important**. There is no actual server side, you can easy change this by implementing server-side by yourself.
 
 ##Installation
 ```sh
