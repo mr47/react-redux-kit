@@ -6,6 +6,7 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/seekmode.svg?style=social)](https://twitter.com/seekmode)
 
 > Based on [OSKit](https://github.com/mr47/opensource-kit)
+
 <p align="center">
     <img alt="Open source kit" src="https://raw.githubusercontent.com/mr47/opensource-kit/master/tmp/oskit.png" width="546">
 </p>
