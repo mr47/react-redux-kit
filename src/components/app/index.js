@@ -72,9 +72,9 @@ class BaseApp extends Component{
                         mid: nextProps.params.menuId
                     });
                 }
-                //if (nextProps.location.query.collapse){
-                //    setupCollapsed(_.uniq(nextProps.location.query.collapse.split("-")));
-                //}
+                if (nextProps.location.query.collapse.length > 0){
+                    setupCollapsed(nextProps.location.query.collapse.split("-"));
+                }
             }
         }
         if (!_.isEqual(nextProps.activeTabItem, this.props.activeTabItem)
@@ -111,7 +111,7 @@ class BaseApp extends Component{
                     mid: params.menuId
                 });
             }
-            if (location.query.collapse){
+            if (location.query.collapse.length > 0){
                 setupCollapsed(location.query.collapse.split("-"));
             }
         }

@@ -13,21 +13,14 @@ class CollapseItem extends Component{
         collapsed: PropTypes.bool,
         collapseItemClick: PropTypes.func.isRequired
     };
-    state = {
-        isCollapsed: this.props.collapsed && !!this.props.collapsed
-    };
     onItemClick(e){
         e.preventDefault();
-        this.setState({
-            isCollapsed: !this.state.isCollapsed
-        });
         this.props.collapseItemClick(this.props.id);
     }
     render(){
-        const { id, name, text } = this.props;
-        const { isCollapsed } = this.state;
+        const { id, name, text, collapsed } = this.props;
         return (
-            <div className={isCollapsed?styles.itemCollapsed:styles.item}>
+            <div className={collapsed?styles.itemCollapsed:styles.item}>
                 <div  className={styles.header}>
                     <a href="#" onClick={this.onItemClick.bind(this)}>{name}</a>
                 </div>
