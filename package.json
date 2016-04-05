@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start --single-run --browsers PhantomJS",
+    "test:dev": "karma start --browsers PhantomJS",
     "build:webpack": "webpack --config webpack.config.dist --colors -p",
     "build:babel": "babel ./src/ --out-dir=lib",
     "build": "npm run build:babel && npm run build:webpack",

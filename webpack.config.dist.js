@@ -2,14 +2,26 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var progressBarPlugin = require('progress-bar-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 
-var cssLoaders = [
+var sassLoaders = [
+    "css?sourceMap",
+    "postcss",
+    "sass?sourceMap"
+];
+
+var sassLoadersWithModules = [
     "css?sourceMap&modules&localIdentName=[name]---[local]---[hash:base64:5]",
     "postcss",
     "sass?sourceMap"
 ];
+
+var cssLoaders = [
+    "css?sourceMap",
+    "postcss"
+];
+
+var appStylesRegExp = /styles\.scss/;
 
 module.exports = {
     entry: {
@@ -22,14 +34,11 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
-        new progressBarPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
             'NODE_ENV': JSON.stringify('production')
         }),
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery",
             "_": "lodash",
             Promise: "bluebird"
         }),
@@ -45,19 +54,34 @@ module.exports = {
         new webpack.NoErrorsPlugin()
     ],
     resolve: {
-        extensions: ['', '.js', '.scss'],
+        extensions: ['', '.js', '.scss', '.css'],
         modulesDirectories: ["node_modules", "src"]
     },
     module: {
         loaders: [
             {
-                test: /\.js?$/,
-                exclude: /node_modules/,
-                loader: 'babel'
+                test: /\.js$/,
+                exclude: [/node_modules/],
+                loader: 'babel-loader'
+            },
+            // allow modules and css to be loaded
+            {
+                test: /\.scss/,
+                include: [appStylesRegExp],
+                loader: ExtractTextPlugin.extract("style-loader", sassLoaders.join("!"))
             },
             {
                 test: /\.scss/,
+                exclude: [appStylesRegExp],
+                loader:  ExtractTextPlugin.extract("style-loader", sassLoadersWithModules.join("!"))
+            },
+            {
+                test: /\.css/,
                 loader: ExtractTextPlugin.extract("style-loader", cssLoaders.join("!"))
+            },
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'url-loader?limit=8192'
             }
         ]
     },
