@@ -13,12 +13,12 @@ export const SETUP_COLLAPSED = 'SETUP_COLLAPSED';
 const activeCollapsedItems = (state = [], action)=>{
     switch (action.type){
         case TOGGLE_COLLAPSE: {
-            let index = _.indexOf(state, +action.payload);
+            let index = _.indexOf(state, action.payload.toString());
             if (index < 0){
                 //not find add set item to collapse
-                return [...state, action.payload];
+                return [...state, action.payload.toString()];
             } else {
-                return _.filter(state, (item)=> item !== +action.payload)
+                return _.filter(state, (item)=> item !== action.payload.toString())
             }
         } break;
         case SETUP_COLLAPSED: {

@@ -18,7 +18,7 @@ class BaseApp extends Component{
         router: PropTypes.any.isRequired
     };
     handleSetActiveMenu(mid){
-        const { setActiveMenu, setupTabs, setActiveTabByIndex, setupCollapseByTabIndex } = this.props.actions;
+        const { setActiveMenu, setupTabs, setActiveTabByIndex, setupCollapseByTabIndex, setupCollapsed } = this.props.actions;
         setActiveMenu(mid);
         setupTabs(mid);
         setActiveTabByIndex({
@@ -28,11 +28,12 @@ class BaseApp extends Component{
         setupCollapseByTabIndex({
             index: 0,
             mid: mid
-        })
+        });
+        setupCollapsed([]);
     }
     handleSetActiveTab(index){
         const { activeMenuItem } = this.props;
-        const { setActiveTabByIndex, setupCollapseByTabIndex } = this.props.actions;
+        const { setActiveTabByIndex, setupCollapseByTabIndex, setupCollapsed } = this.props.actions;
         setActiveTabByIndex({
             index,
             mid: activeMenuItem.id
@@ -40,19 +41,47 @@ class BaseApp extends Component{
         setupCollapseByTabIndex({
             index,
             mid: activeMenuItem.id
-        })
+        });
+        setupCollapsed([]);
     }
     handleToggleCollapse(cid){
         const { toggleCollapse } = this.props.actions;
         toggleCollapse(cid);
     }
-    // "one state sync to rule them all."
+    // "one state sync to rule them all."s
     // sync state
     componentWillReceiveProps(nextProps) {
+        if (nextProps.location !== this.props.location){
+            const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse, setupCollapsed } = this.props.actions;
+            console.log('change location!!!');
+            if (nextProps.params.menuId){
+                setActiveMenu(nextProps.params.menuId);
+                setupTabs(nextProps.params.menuId);
+                setupCollapse({
+                    tid: nextProps.params.tabId,
+                    mid: nextProps.params.menuId
+                });
+                if (nextProps.params.tabId){
+                    setActiveTab({
+                        tid: nextProps.params.tabId,
+                        mid: nextProps.params.menuId
+                    });
+                } else {
+                    setActiveTabByIndex({
+                        index: 0,
+                        mid: nextProps.params.menuId
+                    });
+                }
+                //if (nextProps.location.query.collapse){
+                //    setupCollapsed(_.uniq(nextProps.location.query.collapse.split("-")));
+                //}
+            }
+        }
         if (!_.isEqual(nextProps.activeTabItem, this.props.activeTabItem)
             || !_.isEqual(nextProps.activeMenuItem, this.props.activeMenuItem)
             || !_.isEqual(nextProps.activeCollapsedItems, this.props.activeCollapsedItems)
         ) {
+            console.log(nextProps.activeCollapsedItems);
             this.context.router.push({
                 pathname: `/${nextProps.activeMenuItem.id}/${nextProps.activeTabItem.id}`,
                 query: {
@@ -62,12 +91,9 @@ class BaseApp extends Component{
         }
     }
     componentWillMount(){
-        const { params, query } = this.props;
+        const { params, location } = this.props;
         const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse, setupCollapsed } = this.props.actions;
         if (params.menuId){
-            if (query){
-                setupCollapsed(query.collapse.split("-"));
-            }
             setActiveMenu(params.menuId);
             setupTabs(params.menuId);
             setupCollapse({
@@ -85,10 +111,13 @@ class BaseApp extends Component{
                     mid: params.menuId
                 });
             }
-}
+            if (location.query.collapse){
+                setupCollapsed(location.query.collapse.split("-"));
+            }
+        }
     }
     render(){
-        const { menuItems, tabItems, collapseItems, activeTabItem } = this.props;
+        const { menuItems, tabItems, collapseItems, activeTabItem, activeCollapsedItems } = this.props;
         return (
             <div className="row">
                 <LeftPanel>
@@ -96,7 +125,7 @@ class BaseApp extends Component{
                 </LeftPanel>
                 <RightPanel>
                     <TabsWrapper items={tabItems} selectedIndex={+activeTabItem.internalIndex} setActiveTab={this.handleSetActiveTab.bind(this)} />
-                    <Collapse items={collapseItems} collapseItemClick={this.handleToggleCollapse.bind(this)}/>
+                    <Collapse items={collapseItems} collapsedItems={activeCollapsedItems} collapseItemClick={this.handleToggleCollapse.bind(this)}/>
                 </RightPanel>
             </div>
         );
