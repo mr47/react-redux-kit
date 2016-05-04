@@ -6,13 +6,14 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/seekmode.svg?style=social)](https://twitter.com/seekmode)
 
 > Based on [OSKit](https://github.com/mr47/opensource-kit)
+
 <p align="center">
     <img alt="Open source kit" src="https://raw.githubusercontent.com/mr47/opensource-kit/master/tmp/oskit.png" width="546">
 </p>
 
 > React + redux demo for people who writes a nice code.
 
->!Important. There is no actual server side, you can easy change this by implementing server-side by yourself.
+>**Important**. There is no actual server side, you can easy change this by implementing server-side by yourself.
 
 ##Installation
 ```sh
