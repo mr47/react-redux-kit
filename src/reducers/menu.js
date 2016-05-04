@@ -13,20 +13,22 @@ const menuItems = (state = dataMenuItems, action)=>{
      }
 };
 
-const activeMenuItem = (state = false, action)=>{
+const activeMenuItem = (state = dataMenuItems, action)=>{
     switch (action.type){
         case SET_ACTIVE_MENU: {
             return {
-                ..._.find(dataMenuItems, ["id", +action.payload])
+                ..._.find(state, ["id", +action.payload])
             }
         } break;
         case SET_ACTIVE_MENU_BY_INDEX: {
             return {
-                ...dataMenuItems[action.payload]
+                ...state[action.payload]
             }
         } break;
-        default:
-            return state;
+        default: {
+            if (_.isArray(state)) return { ...state[0] };
+            return { ...state };
+        }
     }
 };
 
