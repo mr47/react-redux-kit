@@ -5,14 +5,15 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 import { counter } from './counter';
-import { menuItems, activeMenuItem } from './menu';
+import { menu } from './menu';
 import { tabItems, activeTabItem } from './tabs';
 import { collapseItems, activeCollapsedItems } from './collapse';
 
 const rootReducer = combineReducers({
     counter,
-    menuItems,
-    activeMenuItem,
+    menu,
+    //menuItems,
+    //activeMenuItem,
     tabItems,
     activeTabItem,
     collapseItems,
