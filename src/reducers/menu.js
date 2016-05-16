@@ -45,9 +45,9 @@ const menu = (state = initialState, action)=>{
     switch (action.type){
         case SET_MENU_ITEMS: {
             return {
-                items: action.items,
-                active: false
-            }
+                items: [...action.payload.items],
+                active: _.isEmpty(action.payload.active) ? false : action.payload.active
+            };
         } break;
         default: {
             return {

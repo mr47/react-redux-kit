@@ -14,14 +14,11 @@ class MenuItem extends Component{
         setActiveMenu: PropTypes.func.isRequired
     };
     onItemClick(e){
-        e.preventDefault();
-        this.props.setActiveMenu(this.props.id);
+        this.props.setActiveMenu(this.props.id, e);
     }
     render(){
         const { id, name } = this.props;
         return (
-            // Left it as is, it's have place in redux work but better to sync state with url at high level
-            // and if someone reading this its HAVE PLACE IN REDUX
             // see https://github.com/reactjs/redux/tree/master/examples/real-world
             <Link className={`${styles.item}`} to={`/${id}`} onClick={this.onItemClick.bind(this)} activeClassName={styles.itemActive}>{name}</Link>
         );

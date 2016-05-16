@@ -4,7 +4,7 @@ import 'chai';
 /* Menu */
 import { menu } from './../../src/reducers';
 import { dataMenuItems } from './../../src/data/menu'
-import { setActiveMenu, setActiveMenuByIndex } from './../../src/actions/';
+import { setActiveMenu, setActiveMenuByIndex, setMenuItems } from './../../src/actions/';
 
 /* Tabs */
 import { tabItems, activeTabItem } from './../../src/reducers';
@@ -20,6 +20,23 @@ import { setupCollapse, setupCollapsed, setupCollapseByTabIndex, toggleCollapse 
 describe("React + Redux Demo", ()=>{
 
     describe("Menu",()=>{
+        it("should setup menu items", ()=>{
+            let newMenuItems = [...dataMenuItems, {
+                id: 3,
+                name: "Menu 3"
+            }];
+            let reducer = menu(undefined, setMenuItems({
+                items: newMenuItems
+            }));
+            expect(reducer.items).to.be.deep.equal(newMenuItems);
+        });
+        it("should set active menu by id", ()=>{
+            let reducer = menu(undefined, setActiveMenu(1));
+            expect(reducer.active).to.be.deep.equal({
+                id: 1,
+                name: "Menu 1"
+            });
+        });
         it("should get menu items", ()=>{
             let reducer = menu(undefined, {});
             expect(reducer.active).to.be.equal(false);

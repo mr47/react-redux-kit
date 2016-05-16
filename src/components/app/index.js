@@ -127,28 +127,31 @@ class BaseApp extends Component{
         //}
     }
     render(){
-        const { menuItems, tabItems, collapseItems, activeTabItem, activeCollapsedItems } = this.props;
+        const { menu, tabItems, collapseItems, activeTabItem, activeCollapsedItems } = this.props;
         return (
             <div className="row">
                 <LeftPanel>
-                    <Menu items={menuItems} setActiveMenu={this.handleSetActiveMenu.bind(this)}/>
+                    <Menu items={menu.items} setActiveMenu={this.handleSetActiveMenu.bind(this)}/>
                 </LeftPanel>
-                <RightPanel>
-                    <TabsWrapper items={tabItems} selectedIndex={+activeTabItem.internalIndex} setActiveTab={this.handleSetActiveTab.bind(this)} />
-                    <Collapse items={collapseItems} collapsedItems={activeCollapsedItems} collapseItemClick={this.handleToggleCollapse.bind(this)}/>
-                </RightPanel>
             </div>
         );
     }
+    /*
+
+     <RightPanel>
+     <TabsWrapper items={tabItems} selectedIndex={+activeTabItem.internalIndex} setActiveTab={this.handleSetActiveTab.bind(this)} />
+     <Collapse items={collapseItems} collapsedItems={activeCollapsedItems} collapseItemClick={this.handleToggleCollapse.bind(this)}/>
+     </RightPanel>
+     */
 }
 
 const mapStateToProps = (state)=>({
-    menuItems: state.menuItems,
-    tabItems: state.tabItems,
-    activeTabItem: state.activeTabItem,
-    activeMenuItem: state.activeMenuItem,
-    collapseItems: state.collapseItems,
-    activeCollapsedItems: state.activeCollapsedItems
+    menu: state.menu
+    //tabItems: state.tabItems,
+    //activeTabItem: state.activeTabItem,
+    //activeMenuItem: state.activeMenuItem,
+    //collapseItems: state.collapseItems,
+    //activeCollapsedItems: state.activeCollapsedItems
 });
 const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(actionCreators, dispatch) });
 
