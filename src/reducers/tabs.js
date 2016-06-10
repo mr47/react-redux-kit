@@ -4,15 +4,19 @@
 
 "use strict";
 
-import { dataTabItems, dataMenuItems } from '../data';
+import { dataTabItems } from '../data';
 
 
 export const SETUP_TABS = "SETUP_TABS";
 export const SETUP_TABS_BY_MENU_INDEX = "SETUP_TABS_BY_MENU_INDEX";
 export const SET_ACTIVE_TAB = "SET_ACTIVE_TAB_BY_ID";
 export const SET_ACTIVE_TAB_BY_INDEX = "SET_ACTIVE_TAB_BY_INDEX";
+export const SET_TABS_ITEMS = "SET_TABS_ITEMS";
 
-const tabItems = (state = dataTabItems, action)=>{
+
+const initialState = { items: dataTabItems, active: false };
+
+const tabItems = (state = initialState.items, action)=>{
     switch (action.type){
         case SETUP_TABS: {
             return _.filter(state, ["mid", +action.payload])
@@ -28,15 +32,12 @@ const tabItems = (state = dataTabItems, action)=>{
     }
 };
 
-const activeTabItem = (state = dataTabItems, action) =>{
+const activeTabItem = (state = initialState.items, action) =>{
     switch (action.type){
         case SET_ACTIVE_TAB: {
             let filtered = _.filter(state, ["mid", +action.payload.mid]);
             let index = _.findIndex(filtered, ["id", +action.payload.tid]);
-            return {
-                ...filtered[index],
-                internalIndex: index
-            }
+            return (index >= 0) ? { ...filtered[index], internalIndex: index }: false;
         } break;
         case SET_ACTIVE_TAB_BY_INDEX: {
             let filtered = _.filter(state, (item)=> item.mid === +action.payload.mid);
@@ -45,17 +46,34 @@ const activeTabItem = (state = dataTabItems, action) =>{
                     ...filtered[action.payload.index],
                     internalIndex: action.payload.index
                 }
-            } else return false;
+            }
+            return false;
         } break;
         default: {
-            if (_.isArray(state)) return { ...state[0] };
-            return state;
+            return (_.isArray(state)) ? { ...state[0] } : state;
+        }
+    }
+};
+
+const tabs = (state = initialState, action) => {
+    switch (action.type){
+        case SET_TABS_ITEMS: {
+            return {
+                items: [...action.payload.items],
+                active: _.isEmpty(action.payload.active) ? false : action.payload.active
+            }
+        } break;
+        default: {
+            return {
+                items: tabItems(state.items, action),
+                active: activeTabItem(state.items, action)
+            }
         }
     }
 };
 
 export {
-    tabItems, activeTabItem
+    tabs, tabItems, activeTabItem
 }
 
-export default tabItems;
+export default tabs;

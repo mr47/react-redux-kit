@@ -6,15 +6,16 @@ import { routerReducer } from 'react-router-redux';
 
 import { counter } from './counter';
 import { menu } from './menu';
-import { tabItems, activeTabItem } from './tabs';
+import { tabItems, activeTabItem, tabs } from './tabs';
 import { collapseItems, activeCollapsedItems } from './collapse';
 
 const rootReducer = combineReducers({
     counter,
     menu,
+    tabs,
     //menuItems,
     //activeMenuItem,
-    tabItems,
+    // tabItems,
     activeTabItem,
     collapseItems,
     activeCollapsedItems,

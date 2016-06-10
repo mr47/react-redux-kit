@@ -7,9 +7,9 @@ import { dataMenuItems } from './../../src/data/menu'
 import { setActiveMenu, setActiveMenuByIndex, setMenuItems } from './../../src/actions/';
 
 /* Tabs */
-import { tabItems, activeTabItem } from './../../src/reducers';
+import { tabs, tabItems, activeTabItem } from './../../src/reducers';
 import { dataTabItems } from './../../src/data/'
-import { setActiveTab, setActiveTabByIndex } from './../../src/actions/';
+import { setActiveTab, setActiveTabByIndex, setTabItems } from './../../src/actions/';
 
 /* Collapse */
 import { collapseItems, activeCollapsedItems } from './../../src/reducers';
@@ -65,10 +65,67 @@ describe("React + Redux Demo", ()=>{
         });
         it("Get active menu by index 999 should get false", ()=>{
             let reducer = menu(undefined, setActiveMenuByIndex(999));
-            expect(reducer.active).to.be.deep.equal(false);
+            expect(reducer.active).to.be.not.ok;
         });
     });
+    describe("Tabs", ()=>{
+        it("should get an tabs", ()=>{
+            let reducer = tabs(undefined, {});
+            expect(reducer.active).to.be.ok;
+            expect(reducer).property("items").to.exists;
+            expect(reducer.items).to.deep.equal(dataTabItems);
+        });
+        it("should setup new tabs items", ()=>{
 
+            let newTabItems = [...dataTabItems, {
+                id: 5,
+                mid: 2,
+                name: "Tab 2 > Menu 2",
+                text: ""
+            }];
+
+            let reducer = tabs(undefined, setTabItems({ items: newTabItems }));
+            expect(reducer.items).to.deep.equal(newTabItems);
+            expect(reducer.active).to.be.not.ok;
+        });
+        it("should set tab items for menu with id 2", ()=>{
+            let newItem = {
+                id: 5,
+                mid: 2,
+                name: "Tab 2 > Menu 2",
+                text: ""
+            };
+            let newTabItems = [...dataTabItems, newItem ];
+            let reducer = tabs({ items: newTabItems }, setActiveTab({
+                mid: 2,
+                tid: 5
+            }));
+            expect(reducer.items).to.deep.equal(newTabItems);
+            expect(reducer.active).to.contain.all.keys(newItem);
+        });
+        it("should set tab items for menu with id 99", ()=>{
+            let reducer = tabs(undefined, setActiveTab({
+                mid: 999,
+                tid: -999
+            }));
+            expect(reducer.items).to.deep.equal(dataTabItems);
+            expect(reducer.active).to.be.not.ok;
+        });
+
+        it("should set tab items for menu using index 0", ()=>{
+            let reducer = tabs(undefined, setActiveTabByIndex({
+                mid: 2,
+                index: 1
+            }));
+            expect(reducer.items).to.be.ok;
+            expect(reducer.active).to.be.ok;
+            expect(reducer.active).to.contain.all.keys({
+                id: 3,
+                mid: 2,
+                name: "Tab 2 > Menu 2"
+            })
+        });
+    });
     //describe("Tabs",()=>{
     //    it("should get tab items", ()=>{
     //        let reducer = tabItems(undefined, {});

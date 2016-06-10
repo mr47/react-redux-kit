@@ -62,4 +62,4 @@ export {
     menuItems, activeMenuItem, menu
 }
 
-export default menuItems;
+export default menu;

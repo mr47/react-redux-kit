@@ -3,6 +3,7 @@
  */
 "use strict";
 import { bindActionCreators } from 'redux';
+import shallowCompare from 'react/lib/shallowCompare';
 import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 import { LeftPanel, RightPanel } from '../panels/';
@@ -18,8 +19,6 @@ class BaseApp extends Component{
         router: PropTypes.any.isRequired
     };
     handleSetActiveMenu(mid){
-        const { setActiveMenu, setupTabs, setActiveTabByIndex, setupCollapseByTabIndex, setupCollapsed } = this.props.actions;
-        setActiveMenu(mid);
         //setupTabs(mid);
         //setActiveTabByIndex({
         //    index: 0,
@@ -98,10 +97,39 @@ class BaseApp extends Component{
             this.context.router.push(route);
         }
     }*/
+    shouldComponentUpdate(nextProps, nextState){
+        return shallowCompare(this, nextProps, nextState);
+    }
+    componentWillReceiveProps(nextProps){
+        const { params, menu } = this.props;
+        const { setActiveMenu, setActiveMenuByIndex } = this.props.actions;
+
+        if (nextProps.params.menuId !== params.menuId){
+            if (nextProps.params.menuId){
+                setActiveMenu(nextProps.params.menuId);
+            } else {
+                setActiveMenuByIndex(0);
+                // console.log(this.props.menu.active);
+            }
+        }
+    }
+    componentDidUpdate(prevProps, prevState){
+
+        // if (params.menuId){
+        //     setActiveMenu(params.menuId);
+        // } else {
+        //     setActiveMenuByIndex(0);
+        // }
+    }
     componentWillMount(){
-        const { params, location } = this.props;
-        const { setActiveMenu, setupTabs, setActiveTab, setActiveTabByIndex, setupCollapse, setupCollapsed, setupCollapseByTabIndex } = this.props.actions;
-        setActiveMenu(params.menuId);
+        const { params } = this.props;
+        const { setActiveMenu, setActiveMenuByIndex } = this.props.actions;
+
+        if (params.menuId){
+            setActiveMenu(params.menuId);
+        } else {
+            setActiveMenuByIndex(0);
+        }
         //setupTabs(params.menuId);
         //if (params.tabId){
         //    setupCollapse({
